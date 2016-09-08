@@ -7,3 +7,14 @@ Need to visualize to keep track of realizing that plan?
 I do, so I did this when I was saving for an apartment to keep my eyes on the target.
 
 MIT: http://tolu.mit-license.org
+
+## Run
+
+```js
+
+npm install
+npm start
+
+// open browser to http://localhost:8080/webpack-dev-server/
+
+```
