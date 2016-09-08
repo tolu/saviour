@@ -1,0 +1,10 @@
+{
+  "env": {
+    "browser": true
+  },
+	"extends": [
+		"nrk",
+    "nrk/rules/react",
+    "nrk/rules/jsx"
+	]
+}
