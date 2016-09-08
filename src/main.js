@@ -3,9 +3,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
+import initChart from './chart';
 
 const paperStyle = {
-  padding: '25px'
+  padding: '25px',
+  margin: '5px 0 5px'
 };
 
 const Main = () => (
@@ -25,8 +27,16 @@ const Main = () => (
           // onTouchTap={ this.handleTouchTap }
         />
       </Paper>
+      <Paper style={paperStyle} zDepth={2}>
+        <canvas id="myChart" />
+      </Paper>
+
     </div>
   </MuiThemeProvider>
 );
+
+setTimeout(() => {
+  initChart('#myChart');
+}, 5000);
 
 export default Main;
