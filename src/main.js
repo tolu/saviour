@@ -37,6 +37,6 @@ const Main = () => (
 
 setTimeout(() => {
   initChart('#myChart');
-}, 5000);
+}, 2500);
 
 export default Main;
