@@ -1,12 +1,15 @@
 import Chart from 'chart.js';
-import saviour from './saviour';
 
-const plan = saviour.getPlan('spareplan');
-
-export default (selector) => {
+export default (selector, plan, type) => {
   const ctx = document.querySelector(selector).getContext('2d');
-  // return barChart(ctx, plan);
-  return donutChart(ctx, plan);
+  switch (type) {
+    case 'bar':
+      return barChart(ctx, plan);
+    case 'donut':
+      return donutChart(ctx, plan);
+    default:
+      throw new Error('no such type...', type);
+  }
 };
 
 function donutChart(ctx, plan){
@@ -23,20 +26,12 @@ function donutChart(ctx, plan){
         backgroundColor: bgColors(data.length, 0.5),
         hoverBackgroundColor: borderColors(data.length, 0.8)
       }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: { beginAtZero: true}
-        }]
-      }
     }
   });
 }
 
-function barChart(ctx){
-  const total = plan.goal;
-  const today = plan.getSumSoFar();
+function barChart(ctx, plan){
+  const data = [plan.goal, plan.getSumSoFar()];
 
   return new Chart(ctx, {
     type: 'bar',
@@ -44,7 +39,7 @@ function barChart(ctx){
       labels: ['Mål', 'Idag'],
       datasets: [{
         label: 'Kvar till målet',
-        data: [total, today],
+        data,
         backgroundColor: bgColors(2),
         borderColor: borderColors(2),
         borderWidth: 1

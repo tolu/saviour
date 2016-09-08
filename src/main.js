@@ -4,6 +4,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
 import initChart from './chart';
+import saviour from './saviour';
+
+const plan = saviour.getPlan('spareplan');
 
 const paperStyle = {
   padding: '25px',
@@ -18,25 +21,29 @@ const Main = () => (
         iconClassNameRight="muidocs-icon-navigation-expand-more"
       />
       <Paper style={paperStyle} zDepth={2}>
-        <h1>SAVIOUR</h1>
+        <h1>{plan.title}</h1>
 
-        <h2>example project</h2>
+        <p>{plan.description}</p>
         <RaisedButton
-          label="Super Secret Password"
+          label="Load Fancy Chart"
           secondary={true}
-          // onTouchTap={ this.handleTouchTap }
+          onTouchTap={loadCharts}
         />
       </Paper>
       <Paper style={paperStyle} zDepth={2}>
-        <canvas id="myChart" />
+        <canvas id="chart1" />
+      </Paper>
+      <Paper style={paperStyle} zDepth={2}>
+        <canvas id="chart2" />
       </Paper>
 
     </div>
   </MuiThemeProvider>
 );
 
-setTimeout(() => {
-  initChart('#myChart');
-}, 2500);
+function loadCharts(){
+  initChart('#chart1', plan, 'donut');
+  initChart('#chart2', plan, 'bar');
+}
 
 export default Main;

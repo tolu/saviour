@@ -16,7 +16,7 @@ class Saviour {
 class Plan {
   constructor({title, description, goal, users}) {
     this.title = title;
-    this.descriiption = description;
+    this.description = description;
     this.goal = goal;
     this.users = users;
     this.deposits = [];
@@ -44,7 +44,10 @@ class Plan {
       if(hit){
         hit.amount += dep.amount;
       } else {
-        distinct.push(dep);
+        distinct.push({
+          amount: dep.amount,
+          note: dep.note
+        });
       }
     });
     return this.getDeposits(prop, distinct);
