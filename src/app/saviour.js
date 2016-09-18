@@ -1,24 +1,11 @@
 
-class Saviour {
-  constructor() {
-    this.plans = [];
-  }
-  addPlan(plan){
-    this.plans.push(plan);
-  }
-  getPlan(name){
-    return this.plans.filter((p) => {
-      return p.title.toLowerCase().indexOf(name.toLowerCase()) > -1;
-    })[0];
-  }
-}
-
 class Plan {
-  constructor({title, description, goal, users}) {
+  constructor({title, description, goal, users, labels}) {
     this.title = title;
     this.description = description;
     this.goal = goal;
     this.users = users;
+    this.labels = labels;
     this.deposits = [];
   }
   deposit(transactions){
@@ -37,15 +24,16 @@ class Plan {
       return dep[prop];
     });
   }
-  getDepositsDistinct(prop){
+  getDepositsDistinct(prop, distinctBy = 'note'){
     const distinct = [];
     this.deposits.forEach((dep) => {
-      const hit = distinct.filter(byPropValue('note', dep.note))[0];
+      const hit = distinct.filter(byPropValue(distinctBy, dep[distinctBy]))[0];
       if(hit){
         hit.amount += dep.amount;
       } else {
         distinct.push({
           amount: dep.amount,
+          user: dep.user,
           note: dep.note
         });
       }
@@ -55,67 +43,12 @@ class Plan {
 }
 
 class Deposit {
-  constructor({amount, user, note, date}) {
+  constructor({amount, user, note}) {
     this.amount = amount;
     this.user = user;
     this.note = note;
-    this.date = date;
   }
 }
-
-
-const instance = new Saviour();
-const sparePlan = new Plan({
-  title: 'Spareplan',
-  description: 'Egenkapital till lägenhetsköp innan Q3 2017',
-  goal: 750000,
-  users: ['Tobias', 'Marte']
-});
-sparePlan.deposit([
-  new Deposit({
-    amount: 95000,
-    user: 'Tobias',
-    note: 'Sparkonto'
-  }),
-  new Deposit({
-    amount: 38000,
-    user: 'Marte',
-    note: 'Sparkonto'
-  }),
-  new Deposit({
-    amount: 27000,
-    user: 'Tobias',
-    note: 'Lgh Deposit'
-  }),
-  new Deposit({
-    amount: 25000,
-    user: 'Tobias',
-    note: 'BSU-konto'
-  }),
-  new Deposit({
-    amount: 25000,
-    user: 'Marte',
-    note: 'BSU-konto'
-  }),
-  new Deposit({
-    amount: 150000,
-    user: 'Tobias',
-    note: 'Mor å Far'
-  }),
-  new Deposit({
-    amount: 25000,
-    user: 'Tobias',
-    note: 'Spara September'
-  }),
-  new Deposit({
-    amount: 8000,
-    user: 'Marte',
-    note: 'Spara September'
-  }),
-]);
-instance.addPlan(sparePlan);
-
-export default instance;
 
 function asStringsByProperty(property){
   return function(a, b) {
@@ -138,4 +71,27 @@ function byPropValue(prop, value){
   return function(item){
     return item[prop] === value;
   };
+}
+
+export const planFromData = (data) => {
+
+  const plan = new Plan({
+    title: data.title,
+    description: data.subtitle,
+    goal: data.goal,
+    users: data.people,
+    labels: data.labels
+  });
+
+  plan.deposit(
+    data.transactions.map((t) => {
+      return new Deposit({
+        amount: t.amount,
+        user: data.people[t.user],
+        note: data.labels[t.lable]
+      });
+    })
+  );
+
+  return plan;
 }
