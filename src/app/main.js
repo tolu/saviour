@@ -6,6 +6,11 @@ import Paper from 'material-ui/Paper';
 import initChart from './chart';
 import {planFromData} from './saviour';
 import data from  './data.json';
+import {getData} from './fireDB';
+
+getData().then((res) => {
+  console.info('data', res);
+})
 
 const plan = planFromData(data);
 
