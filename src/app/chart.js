@@ -7,6 +7,8 @@ export default (selector, plan, type) => {
       return barChart(ctx, plan);
     case 'donut':
       return donutChart(ctx, plan);
+    case 'pie':
+      return pieChart(ctx, plan);
     default:
       throw new Error('no such type...', type);
   }
@@ -16,12 +18,34 @@ function donutChart(ctx, plan){
   const left = plan.goal - plan.getSumSoFar();
   const data = [left, ...plan.getDepositsDistinct('amount')];
   const labels = ['Kvar', ...plan.getDepositsDistinct('note')];
+  console.info(data, labels);
   return new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels,
       datasets: [{
         label: 'Kvar till målet',
+        data,
+        backgroundColor: bgColors(data.length, 0.5),
+        hoverBackgroundColor: borderColors(data.length, 0.8)
+      }]
+    }
+  });
+}
+
+function pieChart(ctx, plan){
+  const left = plan.goal - plan.getSumSoFar();
+  const userData = [...plan.getDepositsDistinct('amount', 'user')];
+  const total = userData.reduce((a,b)=>a+b, 0);
+  const data = userData.map( d => Math.round(d/total*100) );
+  const labels = ['Tobias', 'Marte'];
+  console.info(data, labels);
+  return new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Fördelning',
         data,
         backgroundColor: bgColors(data.length, 0.5),
         hoverBackgroundColor: borderColors(data.length, 0.8)

@@ -3,6 +3,7 @@
     "browser": true
   },
 	"extends": [
+    "./node_modules/react-scripts/config/eslint.js",
 		"nrk",
     "nrk/rules/react",
     "nrk/rules/jsx"

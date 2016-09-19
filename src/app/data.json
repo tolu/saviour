@@ -1,0 +1,50 @@
+{
+  "goal": 750000,
+  "title": "Spareplan",
+  "subtitle": "Egenkapital till lgh-köp",
+  "goalDate": "2017-03-01",
+  "people": ["Tobias", "Marte"],
+  "labels": ["BSU", "Konto", "Gift", "Deposit"],
+  "transactions": [
+    {
+      "user": 0,
+      "lable": 0,
+      "amount": 25000
+    },
+    {
+      "user": 0,
+      "lable": 1,
+      "amount": 95000
+    },
+    {
+      "user": 0,
+      "lable": 2,
+      "amount": 150000
+    },
+    {
+      "user": 0,
+      "lable": 3,
+      "amount": 27000
+    },
+    {
+      "user": 0,
+      "lable": 1,
+      "amount": 30000
+    },
+    {
+      "user": 1,
+      "lable": 0,
+      "amount": 25000
+    },
+    {
+      "user": 1,
+      "lable": 1,
+      "amount": 38000
+    },
+    {
+      "user": 1,
+      "lable": 1,
+      "amount": 8000
+    }
+  ]
+}
