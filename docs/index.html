@@ -15,7 +15,7 @@
       var converter = new showdown.Converter(),
         text = '#hello, markdown!';
         
-      document.querySelector('#md').innerHTML(converter.makeHtml(text));
+      document.querySelector('#md').innerHTML = converter.makeHtml(text);
     </script>
     
   </body>
