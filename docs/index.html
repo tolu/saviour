@@ -3,20 +3,34 @@
     <style>
       @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
       body { font-family: 'Roboto', sans-serif; }
+      .container {
+        margin: 2em auto;
+        max-width: 90%;
+      }
+      .panel {
+        box-shadow: 3px 3px 25px rgba(0,0,0,.1);
+        margin: 1em;
+        padding: 1.5em;
+      }
     </style>
   </head>
   <body>
-    <h1>Here be saviour docs</h1>
-    <p>Using github-pages from docs-folder</p>
-    <div id="md"></div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.4.3/showdown.min.js"></script>
-    <script>
-      var converter = new showdown.Converter(),
-        text = '#hello, markdown!';
-        
-      document.querySelector('#md').innerHTML = converter.makeHtml(text);
-    </script>
-    
+    <div class="container">
+      <h1>Here be saviour docs</h1>
+      <small>Using github-pages from docs-folder and showdown to render markdown</small>
+      
+      <div id="md" class="panel">Loading...</div>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.4.3/showdown.min.js"></script>
+      <script>
+        var container = document.querySelector('#md');
+        var converter = new showdown.Converter();
+        fetch('readme_docs.md')
+        .then(res => res.text())
+        .then(txt => {
+            container.innerHTML = converter.makeHtml(txt);
+        });
+      </script>
+    </div>
   </body>
 </html>
