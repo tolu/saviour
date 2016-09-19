@@ -4,9 +4,17 @@
       @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
       body { font-family: 'Roboto', sans-serif; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/<version tag>/showdown.min.js" />
   </head>
   <body>
     <h1>Here be saviour docs</h1>
     <p>Using github-pages from docs-folder</p>
+    <div id="md"></div>
+    <script>
+      var converter = new showdown.Converter(),
+        text = '#hello, markdown!';
+        
+      document.querySelector('#md').innerHTML(converter.makeHtml(text));
+    </script>
   </body>
 </html>
