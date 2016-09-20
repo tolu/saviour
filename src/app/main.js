@@ -7,9 +7,20 @@ import initChart from './chart';
 import {planFromData} from './saviour';
 import data from  './data.json';
 import {getData} from './fireDB';
+import Avatar from 'material-ui/Avatar';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Tabs, Tab} from 'material-ui/Tabs';
 
+let hasData = false;
+let users = [];
+let labels = [];
+let transactions = [];
 getData().then((res) => {
   console.info('data', res);
+  hasData = true;
+  users = res[1];
+  labels = res[3];
+  transactions = res[2];
 })
 
 const plan = planFromData(data);
@@ -19,7 +30,44 @@ const paperStyle = {
   margin: '5px 0 5px'
 };
 
+const renderDataTable = () => (
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHeaderColumn>Amount</TableHeaderColumn>
+        <TableHeaderColumn>Label</TableHeaderColumn>
+        <TableHeaderColumn>User</TableHeaderColumn>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+    { transactions.map( (t, id) => {
+        return (
+          <TableRow key={id}>
+            <TableRowColumn>{t.amount}</TableRowColumn>
+            <TableRowColumn>{labels[t.lable]}</TableRowColumn>
+            <TableRowColumn><Avatar src={users[t.user].avatar} /></TableRowColumn>
+          </TableRow>
+        );
+      }) }
+    </TableBody>
+  </Table>
+);
+
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    if(hasData) return;
+    let handler = setInterval(() => {
+      if(hasData) {
+        clearInterval(handler);
+        this.assignUserData();
+      }
+    }, 250);
+  }
+  assignUserData() {
+    console.log('assigning user data to', users);
+    this.setState({ users });
+  }
   componentDidMount(){
     this.loadCharts();
   }
@@ -38,8 +86,12 @@ class Main extends Component {
           />*/}
           <Paper style={paperStyle} zDepth={2}>
             <h1>{plan.title}</h1>
-
             <p>{plan.description}</p>
+            <div>
+              {hasData && this.state.users.map((user) => {
+                return <Avatar key={user.name} src={user.avatar} />;
+              })}
+            </div>
             <RaisedButton
               label="Re-Load Fancy Charts"
               secondary={true}
@@ -47,15 +99,13 @@ class Main extends Component {
             />
           </Paper>
           <Paper style={paperStyle} zDepth={2}>
-            <canvas id="chart1" />
+            <Tabs>
+              <Tab label="Doghnut Chart"><canvas id="chart1" /></Tab>
+              <Tab label="Bar Charts"><canvas id="chart2" /></Tab>
+              <Tab label="Pie Chart"><canvas id="chart3" /></Tab>
+              <Tab label="Data">{ hasData && renderDataTable() }</Tab>
+            </Tabs>
           </Paper>
-          <Paper style={paperStyle} zDepth={2}>
-            <canvas id="chart2" />
-          </Paper>
-          <Paper style={paperStyle} zDepth={2}>
-            <canvas id="chart3" />
-          </Paper>
-
         </div>
       </MuiThemeProvider>
     )

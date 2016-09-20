@@ -8,10 +8,12 @@ var config = {
   storageBucket: "saviour-5abc2.appspot.com",
   messagingSenderId: "710302979043"
 };
+
 firebase.initializeApp(config);
 
 const db = firebase.database();
 const users = db.ref('users/');
+const labels = db.ref('labels/');
 const proj = db.ref('projects/');
 const trans = db.ref('transactions/');
 
@@ -19,7 +21,7 @@ global.db = db;
 window.db = db;
 
 export const getData = () => {
-  const promises = [getOnce(proj), getOnce(users), getOnce(trans)];
+  const promises = [getOnce(proj), getOnce(users), getOnce(trans), getOnce(labels)];
   return new Promise((resolve) => {
     Promise.all(promises).then( resArray => {
       resolve(resArray);
