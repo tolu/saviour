@@ -32,20 +32,20 @@ const paperStyle = {
 
 const renderDataTable = () => (
   <Table>
-    <TableHeader>
+    <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
       <TableRow>
+        <TableHeaderColumn>Who</TableHeaderColumn>
+        <TableHeaderColumn>What</TableHeaderColumn>
         <TableHeaderColumn>Amount</TableHeaderColumn>
-        <TableHeaderColumn>Label</TableHeaderColumn>
-        <TableHeaderColumn>User</TableHeaderColumn>
       </TableRow>
     </TableHeader>
-    <TableBody>
+    <TableBody displayRowCheckbox={false}>
     { transactions.map( (t, id) => {
         return (
           <TableRow key={id}>
-            <TableRowColumn>{t.amount}</TableRowColumn>
-            <TableRowColumn>{labels[t.lable]}</TableRowColumn>
             <TableRowColumn><Avatar src={users[t.user].avatar} /></TableRowColumn>
+            <TableRowColumn>{labels[t.lable]}</TableRowColumn>
+            <TableRowColumn>{t.amount}</TableRowColumn>
           </TableRow>
         );
       }) }

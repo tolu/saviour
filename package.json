@@ -21,8 +21,9 @@
   },
   "homepage": "https://github.com/tolu/saviour#readme",
   "devDependencies": {
-    "react-scripts": "0.4.1",
-    "eslint-config-nrk": "^4.0.0"
+    "eslint-config-nrk": "^4.0.0",
+    "eslint-plugin-flowtype": "^2.20.0",
+    "react-scripts": "0.4.1"
   },
   "dependencies": {
     "chart.js": "^2.2.2",
