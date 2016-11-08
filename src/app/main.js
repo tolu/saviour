@@ -6,11 +6,19 @@ import Paper from 'material-ui/Paper';
 import initChart from './chart';
 import {planFromData} from './saviour';
 import data from  './data.json';
-import {getData} from './fireDB';
+import {getData, addTransaction, removeTransaction} from './fireDB';
 import Avatar from 'material-ui/Avatar';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow
+} from 'material-ui/Table';
 import {Tabs, Tab} from 'material-ui/Tabs';
+
 import DataInput from './components/DataInput';
+import TransactionRow from './components/TransactionRow';
 
 let hasData = false;
 let users = [];
@@ -21,7 +29,15 @@ getData().then((res) => {
   hasData = true;
   users = res[1];
   labels = res[3];
-  transactions = res[2];
+  transactions = Object.keys(res[2]).map( key => {
+    const t = res[2][key];
+    return {
+      key,
+      user: users[t.user].avatar,
+      amount: t.amount,
+      lable: labels[t.lable]
+    }
+  });
 })
 
 const plan = planFromData(data);
@@ -41,15 +57,14 @@ const renderDataTable = () => (
         </TableRow>
       </TableHeader>
       <TableBody displayRowCheckbox={false}>
-      { transactions.map( (t, id) => {
-          return (
-            <TableRow key={id}>
-              <TableRowColumn><Avatar src={users[t.user].avatar} /></TableRowColumn>
-              <TableRowColumn>{labels[t.lable]}</TableRowColumn>
-              <TableRowColumn>{t.amount}</TableRowColumn>
-            </TableRow>
-          );
-        }) }
+      { transactions.map(t => {
+        return (
+          <TransactionRow
+            key={t.key}
+            transaction={t}
+            removeTransaction={removeTransaction} />
+        );
+      })}
       </TableBody>
     </Table>
 );
@@ -105,7 +120,7 @@ class Main extends Component {
               <Tab label="Bar Charts"><canvas id="chart2" /></Tab>
               <Tab label="Pie Chart"><canvas id="chart3" /></Tab>
               <Tab label="Data">
-                <DataInput />
+                <DataInput addTransaction={addTransaction} />
                 { hasData && renderDataTable() }
               </Tab>
             </Tabs>
