@@ -10,6 +10,7 @@ import {getData} from './fireDB';
 import Avatar from 'material-ui/Avatar';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import DataInput from './components/DataInput';
 
 let hasData = false;
 let users = [];
@@ -31,26 +32,26 @@ const paperStyle = {
 };
 
 const renderDataTable = () => (
-  <Table>
-    <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-      <TableRow>
-        <TableHeaderColumn>Who</TableHeaderColumn>
-        <TableHeaderColumn>What</TableHeaderColumn>
-        <TableHeaderColumn>Amount</TableHeaderColumn>
-      </TableRow>
-    </TableHeader>
-    <TableBody displayRowCheckbox={false}>
-    { transactions.map( (t, id) => {
-        return (
-          <TableRow key={id}>
-            <TableRowColumn><Avatar src={users[t.user].avatar} /></TableRowColumn>
-            <TableRowColumn>{labels[t.lable]}</TableRowColumn>
-            <TableRowColumn>{t.amount}</TableRowColumn>
-          </TableRow>
-        );
-      }) }
-    </TableBody>
-  </Table>
+    <Table>
+      <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+        <TableRow>
+          <TableHeaderColumn>Who</TableHeaderColumn>
+          <TableHeaderColumn>What</TableHeaderColumn>
+          <TableHeaderColumn>Amount</TableHeaderColumn>
+        </TableRow>
+      </TableHeader>
+      <TableBody displayRowCheckbox={false}>
+      { transactions.map( (t, id) => {
+          return (
+            <TableRow key={id}>
+              <TableRowColumn><Avatar src={users[t.user].avatar} /></TableRowColumn>
+              <TableRowColumn>{labels[t.lable]}</TableRowColumn>
+              <TableRowColumn>{t.amount}</TableRowColumn>
+            </TableRow>
+          );
+        }) }
+      </TableBody>
+    </Table>
 );
 
 class Main extends Component {
@@ -103,7 +104,10 @@ class Main extends Component {
               <Tab label="Doghnut Chart"><canvas id="chart1" /></Tab>
               <Tab label="Bar Charts"><canvas id="chart2" /></Tab>
               <Tab label="Pie Chart"><canvas id="chart3" /></Tab>
-              <Tab label="Data">{ hasData && renderDataTable() }</Tab>
+              <Tab label="Data">
+                <DataInput />
+                { hasData && renderDataTable() }
+              </Tab>
             </Tabs>
           </Paper>
         </div>
