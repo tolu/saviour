@@ -20,19 +20,24 @@ const btnStyle = {
 };
 
 export default class DataInput extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      who: 0,
+      what: 0,
+      value: 0
+    };
+  }
+  onAddTransaction = () => {
+    console.log(this.state);
+    this.props.addTransaction(this.state);
+    this.setState({ who:0, what:0, value:0 });
+  }
 
-  state = {
-    who: 0,
-    what: 0,
-    value: 0
-  };
   whoChanged = (event, index, who) => this.setState({ who });
   whatChanged = (event, index, what) => this.setState({ what });
   amountChanged = (event) => this.setState({ value: parseFloat(event.target.value) });
-  onAddTransaction = () => {
 
-    console.log(this.state);
-  }
   render(){
     return (
       <Paper style={tightPaperStyle} zDepth={1}>
@@ -61,7 +66,7 @@ export default class DataInput extends Component {
           <MenuItem value={2} primaryText="Gave" />
           <MenuItem value={3} primaryText="Depositum" />
         </SelectField>
-        <FloatingActionButton style={btnStyle} onClick={this.onAddTransaction} >
+        <FloatingActionButton style={btnStyle} onTouchTap={this.onAddTransaction} >
           <ContentAdd />
         </FloatingActionButton>
       </Paper>
