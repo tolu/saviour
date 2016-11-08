@@ -12,13 +12,29 @@ var config = {
 firebase.initializeApp(config);
 
 const db = firebase.database();
-const users = db.ref('users/');
-const labels = db.ref('labels/');
-const proj = db.ref('projects/');
-const trans = db.ref('transactions/');
+const users = 'users/';
+const labels = 'labels/';
+const proj = 'projects/';
+const trans = 'transactions/';
 
 global.db = db;
 window.db = db;
+
+export const addTransaction = ({who, what, value}) => {
+  trans.push().set({
+    amount: value,
+    lable: what,
+    user: who
+  });
+}
+
+export const removeTransaction = (id) => {
+  const path = `transactions/${id}`;
+  exist(path).then( val => {
+    console.log('remove transaction', val);
+    // trans.ref(id).remove();
+  });
+}
 
 export const getData = () => {
   const promises = [getOnce(proj), getOnce(users), getOnce(trans), getOnce(labels)];
@@ -29,14 +45,22 @@ export const getData = () => {
   });
 }
 
-function getOnce(ref){
-  return new Promise((resolve) => {
-    ref.once('value').then(getValue(resolve));
+function exist(path){
+  return new Promise((resolve, reject) => {
+    getOnce(path).then( val => {
+      if(!!val){
+        resolve(val);
+      } else {
+        reject();
+      }
+    });
   });
 }
 
-function getValue(resolve){
-  return (snapshot) => {
-    resolve(snapshot.val());
-  }
+function getOnce(path){
+  return new Promise((resolve) => {
+    db.ref(path)
+      .once('value')
+      .then( snap => resolve(snap.val()) );
+  });
 }
