@@ -23,14 +23,14 @@
   "devDependencies": {
     "eslint-config-nrk": "^4.0.0",
     "eslint-plugin-flowtype": "^2.20.0",
-    "react-scripts": "0.4.1"
+    "react-scripts": "0.7.0"
   },
   "dependencies": {
-    "chart.js": "^2.2.2",
-    "firebase": "^3.4.0",
-    "material-ui": "^0.15.4",
-    "react": "^15.3.1",
-    "react-dom": "^15.3.1",
-    "react-tap-event-plugin": "^1.0.0"
+    "chart.js": "^2.4.0",
+    "firebase": "^3.6.1",
+    "material-ui": "^0.16.4",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0",
+    "react-tap-event-plugin": "^2.0.1"
   }
 }
