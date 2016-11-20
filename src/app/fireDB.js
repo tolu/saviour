@@ -20,8 +20,23 @@ const trans = 'transactions/';
 global.db = db;
 window.db = db;
 
+// save callbacks to trigger onChange
+const callbacks = [];
+export const onChange = (cb) => {
+  callbacks.push(cb);
+}
+function notifyChanged(){
+  callbacks.forEach( cb => cb());
+}
+// listen for changes to transactions
+db.ref(trans).on('value', () => {
+  console.info('on transactions changed');
+  notifyChanged();
+});
+
 export const addTransaction = ({who, what, value}) => {
-  trans.push().set({
+  if(value <= 0) return;
+  var ref = db.ref(trans).push().set({
     amount: value,
     lable: what,
     user: who
@@ -29,10 +44,10 @@ export const addTransaction = ({who, what, value}) => {
 }
 
 export const removeTransaction = (id) => {
-  const path = `transactions/${id}`;
+  const path = `${trans}${id}`;
   exist(path).then( val => {
-    console.log('remove transaction', val);
-    // trans.ref(id).remove();
+    console.log(`remove transaction on ${ path } with value`, val);
+    db.ref(path).remove();
   });
 }
 
