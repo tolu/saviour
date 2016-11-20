@@ -53,8 +53,8 @@ export default class DataInput extends Component {
           onChange={this.whoChanged}
           floatingLabelText="Vem"
           style={selectStyle}>
-          <MenuItem value={0} primaryText="Marte" />
-          <MenuItem value={1} primaryText="Tobias" />
+          <MenuItem value={0} primaryText="Tobias" />
+          <MenuItem value={1} primaryText="Marte" />
         </SelectField>
         <SelectField
           value={this.state.what}
