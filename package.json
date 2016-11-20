@@ -1,6 +1,6 @@
 {
   "name": "saviour",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "description": "A planner and visualizer for savers",
   "main": "src/index.js",
   "scripts": {
