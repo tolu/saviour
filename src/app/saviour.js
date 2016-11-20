@@ -87,8 +87,8 @@ export const planFromData = (data) => {
     data.transactions.map((t) => {
       return new Deposit({
         amount: t.amount,
-        user: data.people[t.user],
-        note: data.labels[t.lable]
+        user: data.people[t.userId],
+        note: data.labels[t.lableId]
       });
     })
   );
