@@ -24,14 +24,14 @@ export default class DataInput extends Component {
     super(props);
     this.state = {
       who: 0,
-      what: 0,
+      what: 1,
       value: 0
     };
   }
   onAddTransaction = () => {
     console.log(this.state);
     this.props.addTransaction(this.state);
-    this.setState({ who:0, what:0, value:0 });
+    this.setState({ who:0, what:1, value:0 });
   }
 
   whoChanged = (event, index, who) => this.setState({ who });
