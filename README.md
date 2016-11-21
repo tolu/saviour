@@ -1,5 +1,6 @@
 # saviour
-A planner and visualizer for savers
+A planner and visualizer for savers, but mostly a game of create-react-app.  
+https://tolu-saviour.herokuapp.com/
 
 ## Background
 I needed a project to get more into react and visualizing my saving plan for buying an apartment seemed like a fun project.
