@@ -19,7 +19,6 @@
   "bugs": {
     "url": "https://github.com/tolu/saviour/issues"
   },
-  "homepage": "https://github.com/tolu/saviour#readme",
   "devDependencies": {
     "eslint-config-nrk": "^4.0.0",
     "eslint-plugin-flowtype": "^2.20.0",
